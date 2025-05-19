@@ -74,5 +74,44 @@ class rtmlib:
         # Extract the outlier labels
         labels = forest.labels_
         print(pd.Series(labels).value_counts())
+
+    #Decorators
+    def decorator(self):
+        from datetime import datetime
+        def log_datetime(func):
+            '''Log the date and time of a function'''
+
+            def wrapper():
+                print(f'Function: {func.__name__}\nRun on: {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}')
+                print(f'{"-"*30}')
+                print("Before function")
+                func()
+                print("After function")
+            return wrapper
+        @log_datetime
+        def daily_backup():
+            print('Daily backup job has finished.')
+        daily_backup()
+
+    #Networkx - Create network graph based data structures
+    def create_graph_network(self):
+        import networkx as nx
+        G = nx.Graph()
+        #Add one node
+        G.add_node(1)
+        #Add multiple nodes from an iterable
+        G.add_nodes_from([2,3,4,5])
+        #Add node attributes
+        G.add_nodes_from([(6, {"color": "red"}), ('bob', {"color": "green"})])
+        #Add edges
+        G.add_edges_from([("edge1","Edge2"),("edge3","edge4")])
+        print(list(G.nodes))
+        print(list(G.edges))
+        print(G.degree('edge1'))
+        import matplotlib.pyplot as plt
+        plt.plot(list(G.nodes))
+        
+
 lib=rtmlib()
-lib.detect_outliers()
+lib.create_graph_network()
+
