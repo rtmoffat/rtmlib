@@ -110,8 +110,26 @@ class rtmlib:
         print(G.degree('edge1'))
         import matplotlib.pyplot as plt
         plt.plot(list(G.nodes))
+
+    #JSONEncoder to convert datetime values in json objects to isoformat
+    import json
+    class json_datetime_encoder(json.JSONEncoder):
+        import datetime
+        def default(self,obj):
+            if isinstance(obj, (datetime.datetime, datetime.date, datetime.time)):
+                return obj.isoformat()
+            return super().default(obj)
         
 
 lib=rtmlib()
-lib.create_graph_network()
+
+import datetime
+import json
+data = {
+    "event_name": "Meeting",
+    "start_time": datetime.datetime.now()
+}
+
+json_output = json.dumps(data, cls=lib.json_datetime_encoder)
+print(json_output)
 
